@@ -15,21 +15,30 @@ const Topbar = () => {
   const colorMode = useContext(ColorModeContext);
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2}>
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      flexWrap="wrap"
+      gap="12px"
+      p={{ xs: 1.5, md: 2 }}
+    >
       {/* SEARCH BAR */}
       <Box
         display="flex"
         backgroundColor={colors.primary[400]}
-        borderRadius="3px"
+        borderRadius="6px"
+        flex={{ xs: "1 1 100%", sm: "0 1 360px" }}
+        maxWidth={{ xs: "100%", sm: "420px" }}
       >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
+        <InputBase sx={{ ml: 2, flex: 1, minWidth: 0 }} placeholder="Tìm kiếm" />
         <IconButton type="button" sx={{ p: 1 }}>
           <SearchIcon />
         </IconButton>
       </Box>
 
       {/* ICONS */}
-      <Box display="flex">
+      <Box display="flex" ml={{ xs: "auto", sm: 0 }}>
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlinedIcon />

@@ -4,18 +4,18 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
+import FlightOutlinedIcon from "@mui/icons-material/FlightOutlined";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import AddLocationAltOutlinedIcon from "@mui/icons-material/AddLocationAltOutlined";
+import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
+import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
+import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
+import DonutLargeOutlinedIcon from "@mui/icons-material/DonutLargeOutlined";
+import ShowChartOutlinedIcon from "@mui/icons-material/ShowChartOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -39,7 +39,7 @@ const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
+  const [selected, setSelected] = useState("Bảng điều khiển drone");
 
   return (
     <Box
@@ -80,7 +80,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h3" color={colors.grey[100]}>
-                  ADMINIS
+                  VẬN HÀNH DRONE
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -107,10 +107,10 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Ed Roh
+                  Mina Tran
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
+                  Điều hành bay
                 </Typography>
               </Box>
             </Box>
@@ -118,9 +118,9 @@ const Sidebar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Dashboard"
+              title="Bảng điều khiển drone"
               to="/"
-              icon={<HomeOutlinedIcon />}
+              icon={<DashboardOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -130,26 +130,26 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Data
+              Dữ liệu
             </Typography>
             <Item
-              title="Manage Team"
+              title="Đội ngũ"
               to="/team"
-              icon={<PeopleOutlinedIcon />}
+              icon={<GroupsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Contacts Information"
+              title="Danh sách drone"
               to="/contacts"
-              icon={<ContactsOutlinedIcon />}
+              icon={<FlightOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Invoices Balances"
+              title="Nhiệm vụ bay"
               to="/invoices"
-              icon={<ReceiptOutlinedIcon />}
+              icon={<AssignmentOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -159,26 +159,26 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Pages
+              Trang
             </Typography>
             <Item
-              title="Profile Form"
+              title="Bố trí nhiệm vụ"
               to="/form"
-              icon={<PersonOutlinedIcon />}
+              icon={<AddLocationAltOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Calendar"
+              title="Lịch nhiệm vụ"
               to="/calendar"
-              icon={<CalendarTodayOutlinedIcon />}
+              icon={<EventNoteOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="FAQ Page"
+              title="Cảnh báo khẩn cấp"
               to="/faq"
-              icon={<HelpOutlineOutlinedIcon />}
+              icon={<ReportProblemOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -188,33 +188,33 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Charts
+              Biểu đồ
             </Typography>
             <Item
-              title="Bar Chart"
+              title="Hoạt động bay"
               to="/bar"
-              icon={<BarChartOutlinedIcon />}
+              icon={<QueryStatsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Pie Chart"
+              title="Trạng thái drone"
               to="/pie"
-              icon={<PieChartOutlineOutlinedIcon />}
+              icon={<DonutLargeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Line Chart"
+              title="Xu hướng nhiệm vụ"
               to="/line"
-              icon={<TimelineOutlinedIcon />}
+              icon={<ShowChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Geography Chart"
+              title="Bản đồ cảnh báo"
               to="/geography"
-              icon={<MapOutlinedIcon />}
+              icon={<PublicOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

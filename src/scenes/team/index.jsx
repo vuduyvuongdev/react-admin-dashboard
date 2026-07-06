@@ -2,6 +2,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataTeam } from "../../data/mockData";
+import { gridViLocaleText } from "../../data/gridLocale";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
@@ -14,20 +15,18 @@ const Team = () => {
     { field: "id", headerName: "ID" },
     {
       field: "name",
-      headerName: "Name",
+      headerName: "Tên",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
+      field: "role",
+      headerName: "Vai trò",
+      flex: 1,
     },
     {
       field: "phone",
-      headerName: "Phone Number",
+      headerName: "Số điện thoại",
       flex: 1,
     },
     {
@@ -36,10 +35,16 @@ const Team = () => {
       flex: 1,
     },
     {
-      field: "accessLevel",
-      headerName: "Access Level",
+      field: "access",
+      headerName: "Quyền",
       flex: 1,
       renderCell: ({ row: { access } }) => {
+        const accessLabel =
+          access === "admin"
+            ? "Quản trị"
+            : access === "manager"
+            ? "Quản lý"
+            : "Người dùng";
         return (
           <Box
             width="60%"
@@ -60,7 +65,7 @@ const Team = () => {
             {access === "manager" && <SecurityOutlinedIcon />}
             {access === "user" && <LockOpenOutlinedIcon />}
             <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-              {access}
+              {accessLabel}
             </Typography>
           </Box>
         );
@@ -70,7 +75,7 @@ const Team = () => {
 
   return (
     <Box m="20px">
-      <Header title="TEAM" subtitle="Managing the Team Members" />
+      <Header title="ĐỘI NGŨ" subtitle="Quản lý đội điều hành drone" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -100,7 +105,12 @@ const Team = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
+        <DataGrid
+          checkboxSelection
+          rows={mockDataTeam}
+          columns={columns}
+          localeText={gridViLocaleText}
+        />
       </Box>
     </Box>
   );

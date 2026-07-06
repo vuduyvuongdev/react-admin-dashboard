@@ -4,6 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
+import viLocale from "@fullcalendar/core/locales/vi";
 import {
   Box,
   List,
@@ -21,7 +22,7 @@ const Calendar = () => {
   const [currentEvents, setCurrentEvents] = useState([]);
 
   const handleDateClick = (selected) => {
-    const title = prompt("Please enter a new title for your event");
+    const title = prompt("Nhập tiêu đề mới cho nhiệm vụ");
     const calendarApi = selected.view.calendar;
     calendarApi.unselect();
 
@@ -39,7 +40,7 @@ const Calendar = () => {
   const handleEventClick = (selected) => {
     if (
       window.confirm(
-        `Are you sure you want to delete the event '${selected.event.title}'`
+        `Bạn có chắc muốn xóa nhiệm vụ '${selected.event.title}' không?`
       )
     ) {
       selected.event.remove();
@@ -48,7 +49,7 @@ const Calendar = () => {
 
   return (
     <Box m="20px">
-      <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
+      <Header title="LỊCH NHIỆM VỤ" subtitle="Lên kế hoạch và theo dõi nhiệm vụ drone" />
 
       <Box display="flex" justifyContent="space-between">
         {/* CALENDAR SIDEBAR */}
@@ -58,7 +59,7 @@ const Calendar = () => {
           p="15px"
           borderRadius="4px"
         >
-          <Typography variant="h5">Events</Typography>
+          <Typography variant="h5">Nhiệm vụ</Typography>
           <List>
             {currentEvents.map((event) => (
               <ListItem
@@ -101,6 +102,7 @@ const Calendar = () => {
               center: "title",
               right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
             }}
+            locale={viLocale}
             initialView="dayGridMonth"
             editable={true}
             selectable={true}
@@ -112,12 +114,12 @@ const Calendar = () => {
             initialEvents={[
               {
                 id: "12315",
-                title: "All-day event",
+                title: "Nhiệm vụ cả ngày",
                 date: "2022-09-14",
               },
               {
                 id: "5123",
-                title: "Timed event",
+                title: "Nhiệm vụ theo giờ",
                 date: "2022-09-28",
               },
             ]}

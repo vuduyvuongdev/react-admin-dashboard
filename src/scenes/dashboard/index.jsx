@@ -1,11 +1,11 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Button, Chip, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
+import FlightTakeoffOutlinedIcon from "@mui/icons-material/FlightTakeoffOutlined";
+import BatteryChargingFullOutlinedIcon from "@mui/icons-material/BatteryChargingFullOutlined";
+import AltRouteOutlinedIcon from "@mui/icons-material/AltRouteOutlined";
+import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import GeographyChart from "../../components/GeographyChart";
@@ -16,12 +16,33 @@ import ProgressCircle from "../../components/ProgressCircle";
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const panelSx = {
+    backgroundColor: colors.primary[400],
+    borderRadius: "8px",
+    border: `1px solid ${colors.primary[300]}`,
+    boxShadow: "0 10px 24px rgba(0, 0, 0, 0.12)",
+  };
+  const getAlertChipSx = (level) => {
+    if (level === "Cấp 3") {
+      return { backgroundColor: colors.redAccent[500], color: "#fff" };
+    }
+    if (level === "Cấp 2") {
+      return { backgroundColor: "#f59e0b", color: "#111827" };
+    }
+    return { backgroundColor: colors.greenAccent[600], color: "#fff" };
+  };
 
   return (
-    <Box m="20px">
+    <Box m={{ xs: "12px", md: "20px" }}>
       {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems={{ xs: "flex-start", sm: "center" }}
+        flexDirection={{ xs: "column", sm: "row" }}
+        gap="12px"
+      >
+        <Header title="BẢNG ĐIỀU KHIỂN DRONE" subtitle="Tổng quan thời gian thực về đội bay, nhiệm vụ và cảnh báo" />
 
         <Box>
           <Button
@@ -34,7 +55,7 @@ const Dashboard = () => {
             }}
           >
             <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
+            Tải báo cáo
           </Button>
         </Box>
       </Box>
@@ -43,81 +64,85 @@ const Dashboard = () => {
       <Box
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
-        gap="20px"
+        gridAutoRows={{ xs: "auto", md: "140px" }}
+        gap={{ xs: "14px", md: "20px" }}
       >
         {/* ROW 1 */}
         <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
+          gridColumn={{ xs: "span 12", sm: "span 6", lg: "span 3" }}
+          sx={panelSx}
+          minHeight="140px"
           display="flex"
           alignItems="center"
           justifyContent="center"
         >
           <StatBox
-            title="12,361"
-            subtitle="Emails Sent"
-            progress="0.75"
-            increase="+14%"
+            title="18"
+            subtitle="Số drone đang bay"
+            progress="0.72"
+            increase="+6%"
             icon={
-              <EmailIcon
+              <FlightTakeoffOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
           />
         </Box>
         <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
+          gridColumn={{ xs: "span 12", sm: "span 6", lg: "span 3" }}
+          sx={panelSx}
+          minHeight="140px"
           display="flex"
           alignItems="center"
           justifyContent="center"
         >
           <StatBox
-            title="431,225"
-            subtitle="Sales Obtained"
-            progress="0.50"
-            increase="+21%"
+            title="82%"
+            subtitle="Pin trung bình"
+            progress="0.82"
+            increase="+4%"
             icon={
-              <PointOfSaleIcon
+              <BatteryChargingFullOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
           />
         </Box>
         <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
+          gridColumn={{ xs: "span 12", sm: "span 6", lg: "span 3" }}
+          sx={panelSx}
+          minHeight="140px"
           display="flex"
           alignItems="center"
           justifyContent="center"
         >
           <StatBox
-            title="32,441"
-            subtitle="New Clients"
-            progress="0.30"
-            increase="+5%"
+            title="24"
+            subtitle="Số chuyến bay theo ngày"
+            progress="0.60"
+            increase="+8%"
             icon={
-              <PersonAddIcon
+              <AltRouteOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
           />
         </Box>
         <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
+          gridColumn={{ xs: "span 12", sm: "span 6", lg: "span 3" }}
+          sx={panelSx}
+          minHeight="140px"
           display="flex"
           alignItems="center"
           justifyContent="center"
         >
           <StatBox
-            title="1,325,134"
-            subtitle="Traffic Received"
-            progress="0.80"
-            increase="+43%"
+            title="9"
+            subtitle="Số lần cảnh báo"
+            progress="0.45"
+            increase="+2%"
             icon={
-              <TrafficIcon
+              <WarningAmberOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -126,9 +151,10 @@ const Dashboard = () => {
 
         {/* ROW 2 */}
         <Box
-          gridColumn="span 8"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
+          gridColumn={{ xs: "span 12", lg: "span 8" }}
+          gridRow={{ xs: "span 3", md: "span 2" }}
+          sx={panelSx}
+          minHeight={{ xs: "360px", md: "280px" }}
         >
           <Box
             mt="25px"
@@ -143,14 +169,14 @@ const Dashboard = () => {
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Revenue Generated
+                Chuyến bay hôm nay
               </Typography>
               <Typography
                 variant="h3"
                 fontWeight="bold"
                 color={colors.greenAccent[500]}
               >
-                $59,342.32
+                124 nhiệm vụ đã ghi nhận
               </Typography>
             </Box>
             <Box>
@@ -166,10 +192,11 @@ const Dashboard = () => {
           </Box>
         </Box>
         <Box
-          gridColumn="span 4"
+          gridColumn={{ xs: "span 12", lg: "span 4" }}
           gridRow="span 2"
-          backgroundColor={colors.primary[400]}
+          sx={panelSx}
           overflow="auto"
+          minHeight="280px"
         >
           <Box
             display="flex"
@@ -180,7 +207,7 @@ const Dashboard = () => {
             p="15px"
           >
             <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-              Recent Transactions
+              Cảnh báo gần đây
             </Typography>
           </Box>
           {mockTransactions.map((transaction, i) => (
@@ -205,26 +232,25 @@ const Dashboard = () => {
                 </Typography>
               </Box>
               <Box color={colors.grey[100]}>{transaction.date}</Box>
-              <Box
-                backgroundColor={colors.greenAccent[500]}
-                p="5px 10px"
-                borderRadius="4px"
-              >
-                ${transaction.cost}
-              </Box>
+              <Chip
+                size="small"
+                label={transaction.cost}
+                sx={{ ...getAlertChipSx(transaction.cost), fontWeight: 700 }}
+              />
             </Box>
           ))}
         </Box>
 
         {/* ROW 3 */}
         <Box
-          gridColumn="span 4"
+          gridColumn={{ xs: "span 12", md: "span 4" }}
           gridRow="span 2"
-          backgroundColor={colors.primary[400]}
+          sx={panelSx}
           p="30px"
+          minHeight="280px"
         >
           <Typography variant="h5" fontWeight="600">
-            Campaign
+            Phân bố trạng thái drone
           </Typography>
           <Box
             display="flex"
@@ -238,39 +264,41 @@ const Dashboard = () => {
               color={colors.greenAccent[500]}
               sx={{ mt: "15px" }}
             >
-              $48,352 revenue generated
+              94% đội bay sẵn sàng
             </Typography>
-            <Typography>Includes extra misc expenditures and costs</Typography>
+            <Typography>Trạng thái vận hành của toàn bộ drone và pin</Typography>
           </Box>
         </Box>
         <Box
-          gridColumn="span 4"
+          gridColumn={{ xs: "span 12", md: "span 4" }}
           gridRow="span 2"
-          backgroundColor={colors.primary[400]}
+          sx={panelSx}
+          minHeight="280px"
         >
           <Typography
             variant="h5"
             fontWeight="600"
             sx={{ padding: "30px 30px 0 30px" }}
           >
-            Sales Quantity
+            Số chuyến bay theo ngày
           </Typography>
           <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />
           </Box>
         </Box>
         <Box
-          gridColumn="span 4"
+          gridColumn={{ xs: "span 12", md: "span 4" }}
           gridRow="span 2"
-          backgroundColor={colors.primary[400]}
+          sx={panelSx}
           padding="30px"
+          minHeight="280px"
         >
           <Typography
             variant="h5"
             fontWeight="600"
             sx={{ marginBottom: "15px" }}
           >
-            Geography Based Traffic
+            Số lần cảnh báo
           </Typography>
           <Box height="200px">
             <GeographyChart isDashboard={true} />

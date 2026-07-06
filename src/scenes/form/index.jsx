@@ -1,24 +1,40 @@
-import { Box, Button, TextField } from "@mui/material";
+import { useState } from "react";
+import {
+  Box,
+  Button,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
+import { mockDataContacts } from "../../data/mockData";
 
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [statusMessage, setStatusMessage] = useState("");
 
   const handleFormSubmit = (values) => {
-    console.log(values);
+    setStatusMessage(`Đã gửi nhiệm vụ đến ${values.droneId}: ${values.mission}`);
+    console.log("Gửi nhiệm vụ:", values);
   };
 
   return (
     <Box m="20px">
-      <Header title="CREATE USER" subtitle="Create a New User Profile" />
+      <Header
+        title="BỐ TRÍ NHIỆM VỤ"
+        subtitle="Thiết lập lộ trình, điểm hạ cánh và gửi lệnh quay về/hủy nhiệm vụ"
+      />
 
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
-        validationSchema={checkoutSchema}
+        validationSchema={missionSchema}
       >
         {({
           values,
@@ -27,6 +43,7 @@ const Form = () => {
           handleBlur,
           handleChange,
           handleSubmit,
+          setFieldValue,
         }) => (
           <form onSubmit={handleSubmit}>
             <Box
@@ -37,90 +54,83 @@ const Form = () => {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
               }}
             >
+              <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 2" }}>
+                <InputLabel id="drone-label">Drone</InputLabel>
+                <Select
+                  labelId="drone-label"
+                  id="droneId"
+                  name="droneId"
+                  value={values.droneId}
+                  label="Drone"
+                  onChange={handleChange}
+                >
+                  {mockDataContacts.map((drone) => (
+                    <MenuItem key={drone.droneId} value={drone.droneId}>
+                      {drone.name} ({drone.droneId})
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="First Name"
+                label="Nhiệm vụ"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.firstName}
-                name="firstName"
-                error={!!touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
+                value={values.mission}
+                name="mission"
+                error={!!touched.mission && !!errors.mission}
+                helperText={touched.mission && errors.mission}
                 sx={{ gridColumn: "span 2" }}
               />
+
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Last Name"
+                label="Lộ trình bay"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.lastName}
-                name="lastName"
-                error={!!touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
-                name="email"
-                error={!!touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
+                value={values.route}
+                name="route"
+                error={!!touched.route && !!errors.route}
+                helperText={touched.route && errors.route}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Contact Number"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.contact}
-                name="contact"
-                error={!!touched.contact && !!errors.contact}
-                helperText={touched.contact && errors.contact}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 1"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address1}
-                name="address1"
-                error={!!touched.address1 && !!errors.address1}
-                helperText={touched.address1 && errors.address1}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 2"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address2}
-                name="address2"
-                error={!!touched.address2 && !!errors.address2}
-                helperText={touched.address2 && errors.address2}
-                sx={{ gridColumn: "span 4" }}
-              />
+
+              <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 2" }}>
+                <InputLabel id="landing-label">Địa điểm hạ cánh</InputLabel>
+                <Select
+                  labelId="landing-label"
+                  id="landingLocation"
+                  name="landingLocation"
+                  value={values.landingLocation}
+                  label="Địa điểm hạ cánh"
+                  onChange={handleChange}
+                >
+                  <MenuItem value="Đường băng A">Đường băng A</MenuItem>
+                  <MenuItem value="Trạm hạ cánh Bắc">Trạm hạ cánh Bắc</MenuItem>
+                  <MenuItem value="Cổng căn cứ">Cổng căn cứ</MenuItem>
+                  <MenuItem value="Khu vực hạ cánh khẩn cấp">Khu vực hạ cánh khẩn cấp</MenuItem>
+                </Select>
+              </FormControl>
+
+              {/* Ghi chú/Quay về đã được chuyển sang trang Nhiệm vụ bay */}
             </Box>
-            <Box display="flex" justifyContent="end" mt="20px">
+
+            <Box display="flex" justifyContent="flex-end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
-                Create New User
+                Gửi nhiệm vụ
               </Button>
             </Box>
+
+            {statusMessage && (
+              <Box mt="20px" p="15px" bgcolor="#233044" borderRadius="8px">
+                <Typography color="#fff">{statusMessage}</Typography>
+              </Box>
+            )}
           </form>
         )}
       </Formik>
@@ -128,27 +138,19 @@ const Form = () => {
   );
 };
 
-const phoneRegExp =
-  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-
-const checkoutSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
-  contact: yup
-    .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("required"),
-  address1: yup.string().required("required"),
-  address2: yup.string().required("required"),
+  const missionSchema = yup.object().shape({
+  droneId: yup.string().required("Chọn drone"),
+  mission: yup.string().required("Nhập nhiệm vụ"),
+  route: yup.string().required("Nhập lộ trình bay"),
+  landingLocation: yup.string().required("Chọn địa điểm hạ cánh"),
 });
+
 const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  contact: "",
-  address1: "",
-  address2: "",
+  droneId: "",
+  mission: "",
+  route: "",
+  landingLocation: "",
+  // notes removed from planner; return/cancel actions moved to Nhiệm vụ bay
 };
 
 export default Form;

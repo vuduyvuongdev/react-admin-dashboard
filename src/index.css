@@ -13,6 +13,12 @@ body,
 .app {
   display: flex;
   position: relative;
+  min-height: 100%;
+}
+
+.content {
+  min-width: 0;
+  overflow-y: auto;
 }
 
 ::-webkit-scrollbar {
